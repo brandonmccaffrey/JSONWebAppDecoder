@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JWT Decoder</title>
+</head>
+<body>
+    <h1>JWT Decoder</h1>
+    <form action="/decode" method="post">
+        <label for="token">JWT Token:</label>
+        <textarea id="token" name="token" rows="4" cols="50" required></textarea><br>
+        <input type="submit" value="Decode">
+    </form>
+    <div id="result"></div>
+    <script>
+        document.querySelector('form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const token = document.getElementById('token').value;
+            const response = await fetch('/decode', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `token=${encodeURIComponent(token)}`,
+            });
+            const result = await response.json();
+            document.getElementById('result').innerHTML = `<pre>${JSON.stringify(result, null, 2)}</pre>`;
+        });
+    </script>
+</body>
+</html>
